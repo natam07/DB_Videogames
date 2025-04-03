@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="/CSS/style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
+    <title>VideoGames</title>
+</head>
+
+<body>
+    <div>
+        <h1>CONNECTED TO FIRESTORE</h1>
+        <button id="loadDataBtn">Show all documents in console</button>
+    </div>
+
+    <div>
+        <h1>VIDEOGAMES SURVEY</h1>
+
+        <label for="name">First Name:</label>
+        <input type="text" id="name" placeholder="Ej: Sergio"><br><br>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" placeholder="Ej: Reyes"><br><br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" placeholder="Ej: 18"><br><br>
+
+        <label for="docId">ID:</label>
+        <input type="text" id="docId" placeholder="Ej: 30003625"><br><br>
+
+        <label for="gender">Your gender:</label>
+        <input type="text" id="gender" placeholder="Ej: Male"><br><br>
+
+        <label for="email">Email: </label>
+        <input type="text" id="email" placeholder="Ej: Reyes@gmail.com"><br><br>
+
+        <label for="favorite_game">Which is your favorite game?</label>
+        <input type="text" id="favorite_game" placeholder="Ej: Candy Crush"><br><br>
+
+        <label for="console_pc">Would you rather play in console or in PC?</label>
+        <input type="text" id="console_pc" placeholder="Ej: PC"><br><br>
+
+        <label for="genre_favorite">What is your favorite Videogame genre?</label>
+        <input type="text" id="genre_favorite" placeholder="Ej: Adventure"><br><br>
+
+        <label for="time_hours">How many hours do you play daily?</label>
+        <input type="number" id="time_hours" placeholder="Ej: 18"><br><br>
+
+        <button id="addDocBtn">Submit</button>
+    </div>
+    <div>
+        <h1>GET ANSWER BY ID</h1>
+
+        <label for="getDocId">ID:</label>
+        <input type="text" id="getDocId" placeholder="Ej: 30003625"><br><br>
+
+        <button id="getDocBtn">Get Answer</button>
+
+        <span id="datos">-</span>
+
+    </div>
+
+    <script type="module">
+        import { FirestoreService } from './modules/firestore_service.js';
+
+        /*Aquí se pone el nombre de la colección */
+        const firestore = new FirestoreService("dates_users");
+
+        document.getElementById("loadDataBtn").addEventListener("click", async () => {
+            const docs = await firestore.getAllDocuments();
+            console.log("Obtained Docs:", docs);
+        });
+
+        document.getElementById("addDocBtn").addEventListener("click", async () => {
+            /*Nombre del documento. El trim borra los espacios en blanco al final.*/
+            const docId = document.getElementById("docId").value.trim();
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const last_name = document.getElementById("last_name").value.trim();
+            const console_pc = document.getElementById("console_pc").value.trim();
+            const favorite_game = document.getElementById("favorite_game").value.trim();
+            const gender = document.getElementById("gender").value.trim();
+            const genre_favorite = document.getElementById("genre_favorite").value.trim();
+            /*Pide el numero*/
+            const ageValue = document.getElementById("age").value;
+            /*Pregunta si hay número, si existe ese número se guarda el que hay, sino hay daro asignar un null*/
+            const age = ageValue ? parseInt(ageValue) : null;
+
+            const time_hoursValue = document.getElementById("time_hours").value;
+            /*Pregunta si hay número, si existe ese número se guarda el que hay, sino hay daro asignar un null*/
+            const time_hours = time_hoursValue ? parseInt(time_hoursValue) : null;
+
+            /*Los datos obligatorios son los que están dentro del parentesis del if*/
+            if (!docId || !name || !email || !last_name || !favorite_game) {
+                alert("Fill in the required fields: Document ID, First Name and Last Name.");
+                return;
+            }
+
+            /*Esto debe tener la misma ortografía y mayusculas que hay en la base de datos*/
+            const data = {
+                name,
+                email,
+                last_name,
+                console_pc,
+                favorite_game,
+                gender,
+                genre_favorite,
+                age: isNaN(age) ? null : age,
+                time_hours: isNaN(time_hours) ? null : time_hours
+            };
+
+            await firestore.PostDocument(docId, data);
+        });
+
+        
+        document.getElementById("getDocBtn").addEventListener("click", async () => {
+    const docId = document.getElementById("getDocId").value.trim();
+
+    if (!docId) {
+        alert("The student id is needed");
+        return;
+    }
+
+    const doc = await firestore.getDocumentById(docId);
+
+    if (doc) {
+        let formattedData = `
+            <p><strong>First Name:</strong> ${doc.name}</p>
+            <p><strong>Last Name:</strong> ${doc.last_name}</p>
+            <p><strong>Age:</strong> ${doc.age || "N/A"}</p>
+            <p><strong>Gender:</strong> ${doc.gender || "N/A"}</p>
+            <p><strong>Email:</strong> ${doc.email}</p>
+            <p><strong>Favorite Game:</strong> ${doc.favorite_game}</p>
+            <p><strong>Console or PC:</strong> ${doc.console_pc || "N/A"}</p>
+            <p><strong>Favorite Genre:</strong> ${doc.genre_favorite || "N/A"}</p>
+            <p><strong>Daily Playtime:</strong> ${doc.time_hours || "N/A"} hours</p>
+        `;
+
+        document.getElementById("datos").innerHTML = formattedData;
+    } else {
+        document.getElementById("datos").innerText = "No data found";
+    }
+
+    console.log(doc);
+});
+
+    </script>
+</body>
+
+</html>

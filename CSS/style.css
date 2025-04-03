@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    position: relative;
+    background-image: url("/img.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Ajusta el 0.5 para más o menos oscuridad */
+    z-index: -1;
+    /* Asegura que no tape el contenido */
+}
+
+div {
+    background: rgba(28, 28, 28, 0.822);
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 208, 255, 0.1);
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h1 {
+    color: #00ff0d;
+    font-family: "Jersey 15", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: left;
+    color: antiquewhite;
+}
+
+input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-top: 5px;
+    border: none;
+    border-bottom: 2px solid #ffffff;
+    background: transparent;
+    outline: none;
+    color: #ffffff;
+    transition: border-bottom 0.3s ease-in-out;
+}
+
+/* Efecto al hacer clic en el input */
+input:focus {
+    border-bottom: 2px solid #ff00c3;
+    /* Cambia de color al seleccionar */
+}
+
+button {
+    font-weight: bold;
+    background-color: #ff00fb;
+    color: white;
+    border: #9900ff;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #9900ff;
+}
+
+p{
+    color: #ffffff;
+}
