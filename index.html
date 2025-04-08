@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link href="/CSS/style.css" rel="stylesheet" />
+    <link href="CSS/style.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
@@ -11,6 +11,11 @@
 </head>
 
 <body>
+    <div>
+        <h1>BASIC QUERYS</h1>
+
+        <a href="queries.html"> Queries</a>
+    </div>
     <div>
         <h1>CONNECTED TO FIRESTORE</h1>
         <button id="loadDataBtn">Show all documents in console</button>
@@ -115,19 +120,19 @@
             await firestore.PostDocument(docId, data);
         });
 
-        
+
         document.getElementById("getDocBtn").addEventListener("click", async () => {
-    const docId = document.getElementById("getDocId").value.trim();
+            const docId = document.getElementById("getDocId").value.trim();
 
-    if (!docId) {
-        alert("The student id is needed");
-        return;
-    }
+            if (!docId) {
+                alert("The student id is needed");
+                return;
+            }
 
-    const doc = await firestore.getDocumentById(docId);
+            const doc = await firestore.getDocumentById(docId);
 
-    if (doc) {
-        let formattedData = `
+            if (doc) {
+                let formattedData = `
             <p><strong>First Name:</strong> ${doc.name}</p>
             <p><strong>Last Name:</strong> ${doc.last_name}</p>
             <p><strong>Age:</strong> ${doc.age || "N/A"}</p>
@@ -139,13 +144,13 @@
             <p><strong>Daily Playtime:</strong> ${doc.time_hours || "N/A"} hours</p>
         `;
 
-        document.getElementById("datos").innerHTML = formattedData;
-    } else {
-        document.getElementById("datos").innerText = "No data found";
-    }
+                document.getElementById("datos").innerHTML = formattedData;
+            } else {
+                document.getElementById("datos").innerText = "No data found";
+            }
 
-    console.log(doc);
-});
+            console.log(doc);
+        });
 
     </script>
 </body>
