@@ -3,7 +3,7 @@ body {
     font-weight: 400;
     font-style: normal;
     position: relative;
-    background-image: url("/VideoG/VideoGames/img.jpg");
+    background-image: url("/Images/img.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -40,7 +40,8 @@ div {
     text-align: center;
 }
 
-h1, h2 {
+h1,
+h2 {
     color: #00ff0d;
     font-family: "Jersey 15", sans-serif;
     font-weight: 400;
@@ -68,10 +69,8 @@ input {
     transition: border-bottom 0.3s ease-in-out;
 }
 
-/* Efecto al hacer clic en el input */
 input:focus {
     border-bottom: 2px solid #ff00c3;
-    /* Cambia de color al seleccionar */
 }
 
 button {
@@ -90,13 +89,39 @@ button:hover {
     background-color: #9900ff;
 }
 
-p, pre{
+p,
+pre {
     color: #ffffff;
     text-align: left;
     font-size: 16px;
 }
 
-a{
+a {
     color: #ffffff;
     text-decoration: none;
+}
+
+select {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #ffffff;
+    color: white;
+    padding: 5px;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 0;
+    outline: none;
+    font-size: 16px;
+
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='10' viewBox='0 0 24 24' width='10' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+}
+
+select option {
+    background-color: #1a1a1a; /* Fondo oscuro */
+    color: white;             /* Texto blanco */
 }
