@@ -16,18 +16,22 @@
     </div>
     <h1>Firestore Query Tester</h1>
 
-    <div>
+    <div id="filterSection">
         <h2>Where Query</h2>
-        <label for="column">Column:</label>
-        <input type="text" id="column" placeholder="name"><br><br>
+        <h1>Choose the option </h1>
+        <select name="Choose_The_Option" id="option1">
+            <option value="console_pc_age">Console or PC - Age</option>
+            <option value="name_age_">Name - Age</option>
+            <option value="genre_favorite_last_name_time_hours">Favorite genre - Last Name - Hours played</option>
+            <option value="console_pc_age_time_hours">Console or PC - Age - Hours played</option>
+            <option value="gender_time_hours_name">Gender - Hours played - Name</option>
+        </select>
+        <button id="addFilterBtn">Search</button><br><br>
+        <button id="multiWhereQueryBtn">Run Combined Query</button>
+    </div>
 
-        <label for="comparator">Comparator:</label>
-        <input type="text" id="comparator" placeholder="==, >, <, etc"><br><br>
+    <div id="infor">
 
-        <label for="value">Value:</label>
-        <input type="text" id="value" placeholder="e.g. John or 25"><br><br>
-
-        <button id="whereQueryBtn">Run Where Query</button>
     </div>
 
     <hr>
@@ -100,18 +104,119 @@
             });
         };
 
-        // Where Query
-        document.getElementById("whereQueryBtn").addEventListener("click", async () => {
-            const column = document.getElementById("column").value.trim();
-            const comparator = document.getElementById("comparator").value.trim();
-            const valueRaw = document.getElementById("value").value.trim();
+        // Add fields to filter
+        document.getElementById("addFilterBtn").addEventListener("click", () => {
+            console.log("Add field clicked")
+            const container = document.getElementById("infor");
+            // Limpiar el contenido anterior
+            container.innerHTML = "";
+            const div = document.createElement("div");
+            div.classList.add("filter");
+            const optionValue = document.getElementById("option1").value.trim();
+            console.log(optionValue)
+            if (optionValue == "console_pc_age") {
+                div.innerHTML = `
+                <h2>Console or PC</h2>
+                <input type="text" placeholder="input: console_pc" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                <h2>Age</h2>
+                <input type="text" placeholder="input: age" class="filterColumn"> 
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                `;
+            } else if (optionValue == "name_age_") {
+                div.innerHTML = `
+                <h2>Name</h2>
+                <input type="text" placeholder="input: name" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                <h2>Age</h2>
+                <input type="text" placeholder="input: age" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                `;
 
-            // Convert to number if it's numeric
-            const value = isNaN(valueRaw) ? valueRaw : Number(valueRaw);
+            } else if (optionValue == "genre_favorite_last_name_time_hours") {
+                div.innerHTML = `
+                <h2>Favorite video game genre</h2>
+                <input type="text" placeholder="input: genre_favorite" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                <h2>Last Name</h2>
+                <input type="text" placeholder="input: last_name" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                <h2>Hours played</h2>
+                <input type="text" placeholder="input: time_hours" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                `;
+            } else if (optionValue == "console_pc_age_time_hours") {
+                div.innerHTML = `
+                <h2>Console or PC</h2>
+                <input type="text" placeholder="input: console_pc" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                <h2>Age</h2>
+                <input type="text" placeholder="input: age" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                <h2>Hours played</h2>
+                <input type="text" placeholder="input: time_hours" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                `;
+            } else if (optionValue == "gender_time_hours_name") {
+                div.innerHTML = `
+                <h2>Gender</h2>
+                <input type="text" placeholder="input: gender" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                <h2>Hours played</h2>
+                <input type="text" placeholder="input: time_hours" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                <h2>Name</h2>
+                <input type="text" placeholder="input: name" class="filterColumn">
+                <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+                <input type="text" placeholder="Value" class="filterValue">
+                <br>
+                `;
+            }
 
-            const docs = await firestore.whereQuery(column, comparator, value);
+
+            container.appendChild(div);
+        });
+
+        // Multi query
+        document.getElementById("multiWhereQueryBtn").addEventListener("click", async () => {
+            const filterDivs = document.querySelectorAll("#infor .filter");
+            const filters = [];
+
+            filterDivs.forEach(div => {
+                const column = div.querySelector(".filterColumn").value.trim();
+                const comparison = div.querySelector(".filterComparator").value.trim();
+                const valueRaw = div.querySelector(".filterValue").value.trim();
+
+                if (column && comparison) {
+                    const value = isNaN(valueRaw) ? valueRaw : Number(valueRaw);
+                    filters.push({ column, comparison, value });
+                }
+            });
+
+            const docs = await firestore.combinedQuery(filters);
             displayResults(docs);
         });
+
 
         // Order + Limit Query
         document.getElementById("orderLimitQueryBtn").addEventListener("click", async () => {
