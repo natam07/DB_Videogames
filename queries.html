@@ -34,7 +34,7 @@
 
     </div>
 
-    <hr>
+    <br>
 
     <div>
         <h2>Order + Limit</h2>
@@ -53,7 +53,17 @@
         <button id="orderLimitQueryBtn">Run Order + Limit Query</button>
     </div>
 
-    <hr>
+    <br>
+
+    <div>
+        <h2>Simple query</h2>
+            <input type="text" placeholder="Column" class="filterColumn">
+            <input type="text" placeholder="Comparator (==, >, <, etc)" class="filterComparator">
+            <input type="text" placeholder="Value" class="filterValue">
+        <button id="whereQueryBtn">Run query</button>
+    </div>
+
+    <br>
 
     <div>
         <h2>Prefix Search</h2>
@@ -66,7 +76,7 @@
         <button id="prefixQueryBtn">Run Prefix Search</button>
     </div>
 
-    <hr>
+    <br>
 
     <div>
         <h2>Results</h2>
@@ -216,6 +226,22 @@
             const docs = await firestore.combinedQuery(filters);
             displayResults(docs);
         });
+
+        document.getElementById("whereQueryBtn").addEventListener("click", async () => {
+            const column = document.querySelector(".filterColumn").value.trim();
+            const comparator = document.querySelector(".filterComparator").value.trim();
+            const valueRaw = document.querySelector(".filterValue").value.trim();
+        
+            if (!column || !comparator || !valueRaw) {
+                alert("Please fill all fields");
+                return;
+            }
+        
+            const value = isNaN(valueRaw) ? valueRaw : Number(valueRaw);
+            const docs = await firestore.whereQuery(column, comparator, value);
+            displayResults(docs);
+        });
+        
 
 
         // Order + Limit Query
